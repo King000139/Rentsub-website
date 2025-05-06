@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RentSub - Affordable Telegram Bot Subscriptions</title>
+  <style>
+    :root {
+      --primary: #4a89dc;
+      --secondary: #5d9cec;
+      --dark: #202b38;
+      --light: #f5f7fa;
+      --accent: #37bc9b;
+      --danger: #da4453;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      background-color: #f0f2f5;
+      color: #333;
+      line-height: 1.6;
+    }
+    
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    header {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 2rem 0;
+      text-align: center;
+      border-bottom-left-radius: 10px;
+      border-bottom-right-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    header p {
+      font-size: 1.2rem;
+      opacity: 0.9;
+    }
+    
+    nav {
+      background-color: white;
+      border-radius: 10px;
+      margin: 1rem 0;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+    
+    nav ul {
+      display: flex;
+      list-style: none;
+      justify-content: center;
+      padding: 0.5rem 0;
+      flex-wrap: wrap;
+    }
+    
+    nav ul li {
+      padding: 0.5rem 1rem;
+    }
+    
+    nav ul li a {
+      color: var(--dark);
+      text-decoration: none;
+      transition: color 0.3s ease;
+      font-weight: 500;
+    }
+    
+    nav ul li a:hover {
+      color: var(--primary);
+    }
+    
+    .bot-info {
+      background-color: white;
+      border-radius: 10px;
+      padding: 2rem;
+      margin: 2rem 0;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+    
+    .bot-link {
+      display: inline-block;
+      background-color: var(--primary);
+      color: white;
+      text-decoration: none;
+      padding: 10px 25px;
+      border-radius: 30px;
+      font-weight: bold;
+      margin-top: 15px;
+      transition: all 0.3s ease;
+    }
+    
+    .bot-link:hover {
+      background-color: var(--secondary);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .features {
+      background-color: white;
+      border-radius: 10px;
+      padding: 2rem;
+      margin: 2rem 0;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+    
+    .features h2 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: var(--dark);
+    }
+    
+    .feature-list {
+      list-style-type: none;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      gap: 1rem;
+    }
+    
+    .feature-item {
+      display: flex;
+      align-items: center;
+      flex-basis: 30%;
+      min-width: 250px;
+      padding: 10px;
+    }
+    
+    .feature-icon {
+      margin-right: 10px;
+      width: 24px;
+      height: 24px;
+      color: var(--accent);
+    }
+    
+    .plans {
+      background-color: white;
+      border-radius: 10px;
+      padding: 2rem;
+      margin: 2rem 0;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+    
+    .plans h2 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: var(--dark);
+    }
+    
+    .plan-cards {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+    
+    .plan-card {
+      background-color: #f8f9fa;
+      border-radius: 10px;
+      padding: 1.5rem;
+      flex: 1;
+      min-width: 250px;
+      max-width: 350px;
+      text-align: center;
+      border: 1px solid #eee;
+      transition: all 0.3s ease;
+    }
+    
+    .plan-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .plan-card h3 {
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+    
+    .plan-price {
+      font-size: 1.8rem;
+      font-weight: bold;
+      margin: 15px 0;
+      color: var(--dark);
+    }
+    
+    .plan-btn {
+      display: inline-block;
+      background-color: var(--accent);
+      color: white;
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-weight: bold;
+      margin-top: 15px;
+      transition: all 0.3s ease;
+    }
+    
+    .plan-btn:hover {
+      background-color: #2ca085;
+    }
+    
+    .how-it-works {
+      background-color: white;
+      border-radius: 10px;
+      padding: 2rem;
+      margin: 2rem 0;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+    
+    .how-it-works h2 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: var(--dark);
+    }
+    
+    .steps {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      gap: 20px;
+    }
+    
+    .step {
+      flex: 1;
+      min-width: 250px;
+      text-align: center;
+      padding: 20px;
+    }
+    
+    .step-number {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 50px;
+      height: 50px;
+      background-color: var(--primary);
+      color: white;
+      border-radius: 50%;
+      margin: 0 auto 15px;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+    
+    footer {
+      background-color: var(--dark);
+      color: white;
+      padding: 2rem 0;
+      text-align: center;
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+    }
+    
+    .contact-info {
+      margin-top: 1rem;
+    }
+    
+    .contact-info a {
+      color: var(--secondary);
+      text-decoration: none;
+    }
+    
+    .contact-info a:hover {
+      text-decoration: underline;
+    }
+    
+    .policy-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 1.5rem;
+      gap: 15px;
+    }
+    
+    .policy-links a {
+      color: #aab8c5;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.3s ease;
+    }
+    
+    .policy-links a:hover {
+      color: white;
+      text-decoration: underline;
+    }
+    
+    .policy-page {
+      background-color: white;
+      border-radius: 10px;
+      padding: 2rem;
+      margin: 2rem 0;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+    
+    .policy-page h2 {
+      color: var(--dark);
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+    
+    .policy-content {
+      background-color: #f8f9fa;
+      padding: 1.5rem;
+      border-radius: 8px;
+      border-left: 4px solid var(--primary);
+    }
+    
+    .back-btn {
+      display: inline-block;
+      background-color: var(--primary);
+      color: white;
+      text-decoration: none;
+      padding: 8px 20px;
+      border-radius: 5px;
+      font-weight: 500;
+      margin-top: 20px;
+      transition: all 0.3s ease;
+    }
+    
+    .back-btn:hover {
+      background-color: var(--secondary);
+    }
+    
+    .page {
+      display: none;
+    }
+    
+    .page.active {
+      display: block;
+    }
+    
+    #main-page {
+      display: block;
+    }
+    
+    @media (max-width: 768px) {
+      nav ul {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .feature-list, .plan-cards, .steps {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .feature-item, .plan-card, .step {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="main-page" class="page active">
+    <header>
+      <div class="container">
+        <h1>RentSub</h1>
+        <p>Affordable Limited-Time Telegram Bot Subscriptions</p>
+      </div>
+    </header>
+    
+    <div class="container">
+      <nav>
+        <ul>
+          <li><a href="#" onclick="showPage('main-page'); return false;">Home</a></li>
+          <li><a href="#" onclick="showPage('privacy-policy'); return false;">Privacy Policy</a></li>
+          <li><a href="#" onclick="showPage('terms-conditions'); return false;">Terms & Conditions</a></li>
+          <li><a href="#" onclick="showPage('refund-policy'); return false;">Refund Policy</a></li>
+          <li><a href="#" onclick="showPage('shipping-policy'); return false;">Shipping Policy</a></li>
+        </ul>
+      </nav>
+      
+      <section class="bot-info">
+        <h2>Get Exclusive Access Today</h2>
+        <p>We provide affordable limited-time Telegram bot subscriptions for exclusive access.</p>
+        <a href="https://t.me/YourBotUsername" class="bot-link">Our Telegram Bot</a>
+      </section>
+      
+      <section class="features">
+        <h2>Why Choose RentSub?</h2>
+        <ul class="feature-list">
+          <li class="feature-item">
+            <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <span>Cheapest Plans Available</span>
+          </li>
+          <li class="feature-item">
+            <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <span>Instant Delivery via Telegram</span>
+          </li>
+          <li class="feature-item">
+            <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+            </svg>
+            <span>Secure Razorpay Payments</span>
+          </li>
+          <li class="feature-item">
+            <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
+            </svg>
+            <span>10am to 10pm Customer Support</span>
+          </li>
+        </ul>
+      </section>
+      
+      <section class="plans">
+        <h2>Available Plans</h2>
+        <div class="plan-cards">
+          <div class="plan-card">
+            <h3>Weekly Access</h3>
+            <div class="plan-price">₹XX</div>
+            <p>Full access to all features for 7 days</p>
+            <p>Instant activation through Telegram</p>
+            <p>24/7 bot availability</p>
+            <p>No additional charges</p>
+            <a href="#" class="plan-btn">Get Started</a>
+          </div>
+          
+          <div class="plan-card">
+            <h3>Bi-Weekly Access</h3>
+            <div class="plan-price">₹XX</div>
+            <p>Full access to all features for 15 days</p>
+            <p>Instant activation through Telegram</p>
+            <p>24/7 bot availability</p>
+            <p>Priority customer support</p>
+            <a href="#" class="plan-btn">Get Started</a>
+          </div>
+          
+          <div class="plan-card">
+            <h3>Monthly Access</h3>
+            <div class="plan-price">₹XX</div>
+            <p>Full access to all features for 30 days</p>
+            <p>Instant activation through Telegram</p>
+            <p>24/7 bot availability</p>
+            <p>Premium customer support</p>
+            <p>Best value for money</p>
+            <a href="#" class="plan-btn">Get Started</a>
+          </div>
+        </div>
+      </section>
+      
+      <section class="how-it-works">
+        <h2>How It Works</h2>
+        <div class="steps">
+          <div class="step">
+            <div class="step-number">1</div>
+            <h3>Choose a Plan</h3>
+            <p>Select the subscription duration that works best for you</p>
+          </div>
+          
+          <div class="step">
+            <div class="step-number">2</div>
+            <h3>Pay Securely</h3>
+            <p>Complete your purchase using Razorpay's secure payment gateway</p>
+          </div>
+          
+          <div class="step">
+            <div class="step-number">3</div>
+            <h3>Get Instant Access</h3>
+            <p>Receive immediate access through our Telegram bot</p>
+          </div>
+        </div>
+      </section>
+    </div>
+    
+    <footer>
+      <div class="container">
+        <h3>Contact Us</h3>
+        <div class="contact-info">
+          <p>Email: <a href="mailto:rent1sub@gmail.com">rent1sub@gmail.com</a></p>
+          <p>Telegram: <a href="https://t.me/YourBotUsername">t.me/YourBotUsername</a></p>
+        </div>
+        <div class="policy-links">
+          <a href="#" onclick="showPage('privacy-policy'); return false;">Privacy Policy</a>
+          <a href="#" onclick="showPage('terms-conditions'); return false;">Terms & Conditions</a>
+          <a href="#" onclick="showPage('refund-policy'); return false;">Refund Policy</a>
+          <a href="#" onclick="showPage('shipping-policy'); return false;">Shipping Policy</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+  
+  <!-- Privacy Policy Page -->
+  <div id="privacy-policy" class="page">
+    <header>
+      <div class="container">
+        <h1>RentSub</h1>
+        <p>Affordable Limited-Time Telegram Bot Subscriptions</p>
+      </div>
+    </header>
+    
+    <div class="container">
+      <nav>
+        <ul>
+          <li><a href="#" onclick="showPage('main-page'); return false;">Home</a></li>
+          <li><a href="#" onclick="showPage('privacy-policy'); return false;">Privacy Policy</a></li>
+          <li><a href="#" onclick="showPage('terms-conditions'); return false;">Terms & Conditions</a></li>
+          <li><a href="#" onclick="showPage('refund-policy'); return false;">Refund Policy</a></li>
+          <li><a href="#" onclick="showPage('shipping-policy'); return false;">Shipping Policy</a></li>
+        </ul>
+      </nav>
+      
+      <section class="policy-page">
+        <h2>Privacy Policy</h2>
+        <div class="policy-content">
+          <p>We collect only necessary data to provide you access to our bot. We do not sell or misuse your personal data. For any concerns, you may contact us at rent1sub@gmail.com.</p>
+        </div>
+        <a href="#" onclick="showPage('main-page'); return false;" class="back-btn">Back to Home</a>
+      </section>
+    </div>
+    
+    <footer>
+      <div class="container">
+        <h3>Contact Us</h3>
+        <div class="contact-info">
+          <p>Email: <a href="mailto:rent1sub@gmail.com">rent1sub@gmail.com</a></p>
+          <p>Telegram: <a href="https://t.me/YourBotUsername">t.me/YourBotUsername</a></p>
+        </div>
+        <div class="policy-links">
+          <a href="#" onclick="showPage('privacy-policy'); return false;">Privacy Policy</a>
+          <a href="#" onclick="showPage('terms-conditions'); return false;">Terms & Conditions</a>
+          <a href="#" onclick="showPage('refund-policy'); return false;">Refund Policy</a>
+          <a href="#" onclick="showPage('shipping-policy'); return false;">Shipping Policy</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+  
+  <!-- Terms & Conditions Page -->
+  <div id="terms-conditions" class="page">
+    <header>
+      <div class="container">
+        <h1>RentSub</h1>
+        <p>Affordable Limited-Time Telegram Bot Subscriptions</p>
+      </div>
+    </header>
+    
+    <div class="container">
+      <nav>
+        <ul>
+          <li><a href="#" onclick="showPage('main-page'); return false;">Home</a></li>
+          <li><a href="#" onclick="showPage('privacy-policy'); return false;">Privacy Policy</a></li>
+          <li><a href="#" onclick="showPage('terms-conditions'); return false;">Terms & Conditions</a></li>
+          <li><a href="#" onclick="showPage('refund-policy'); return false;">Refund Policy</a></li>
+          <li><a href="#" onclick="showPage('shipping-policy'); return false;">Shipping Policy</a></li>
+        </ul>
+      </nav>
+      
+      <section class="policy-page">
+        <h2>Terms and Conditions</h2>
+        <div class="policy-content">
+          <p>By using RentSub, you agree not to misuse our services. Subscription durations are fixed and non-transferable. Violation of rules may result in termination of access without refund.</p>
+        </div>
+        <a href="#" onclick="showPage('main-page'); return false;" class="back-btn">Back to Home</a>
+      </section>
+    </div>
+    
+    <footer>
+      <div class="container">
+        <h3>Contact Us</h3>
+        <div class="contact-info">
+          <p>Email: <a href="mailto:rent1sub@gmail.com">rent1sub@gmail.com</a></p>
+          <p>Telegram: <a href="https://t.me/YourBotUsername">t.me/YourBotUsername</a></p>
+        </div>
+        <div class="policy-links">
+          <a href="#" onclick="showPage('privacy-policy'); return false;">Privacy Policy</a>
+          <a href="#" onclick="showPage('terms-conditions'); return false;">Terms & Conditions</a>
+          <a href="#" onclick="showPage('refund-policy'); return false;">Refund Policy</a>
+          <a href="#" onclick="showPage('shipping-policy'); return false;">Shipping Policy</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+  
+  <!-- Refund Policy Page -->
+  <div id="refund-policy" class="page">
+    <header>
+      <div class="container">
+        <h1>RentSub</h1>
+        <p>Affordable Limited-Time Telegram Bot Subscriptions</p>
+      </div>
+    </header>
+    
+    <div class="container">
+      <nav>
+        <ul>
+          <li><a href="#" onclick="showPage('main-page'); return false;">Home</a></li>
+          <li><a href="#" onclick="showPage('privacy-policy'); return false;">Privacy Policy</a></li>
+          <li><a href="#" onclick="showPage('terms-conditions'); return false;">Terms & Conditions</a></li>
+          <li><a href="#" onclick="showPage('refund-policy'); return false;">Refund Policy</a></li>
+          <li><a href="#" onclick="showPage('shipping-policy'); return false;">Shipping Policy</a></li>
+        </ul>
+      </nav>
+      
+      <section class="policy-page">
+        <h2>Refund Policy</h2>
+        <div class="policy-content">
+          <p>Refunds are provided only in case of payment failure or bot access not being granted within 24 hours. Contact us with proof. No refund will be processed for successfully delivered subscriptions.</p>
+        </div>
+        <a href="#" onclick="showPage('main-page'); return false;" class="back-btn">Back to Home</a>
+      </section>
+    </div>
+    
+    <footer>
+      <div class="container">
+        <h3>Contact Us</h3>
+        <div class="contact-info">
+          <p>Email: <a href="mailto:rent1sub@gmail.com">rent1sub@gmail.com</a></p>
+          <p>Telegram: <a href="https://t.me/YourBotUsername">t.me/YourBotUsername</a></p>
+        </div>
+        <div class="policy-links">
+          <a href="#" onclick="showPage('privacy-policy'); return false;">Privacy Policy</a>
+          <a href="#" onclick="showPage('terms-conditions'); return false;">Terms & Conditions</a>
+          <a href="#" onclick="showPage('refund-policy'); return false;">Refund Policy</a>
+          <a href="#" onclick="showPage('shipping-policy'); return false;">Shipping Policy</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+  
+  <!-- Shipping Policy Page -->
+  <div id="shipping-policy" class="page">
+    <header>
+      <div class="container">
+        <h1>RentSub</h1>
+        <p>Affordable Limited-Time Telegram Bot Subscriptions</p>
+      </div>
+    </header>
+    <div class="container">
+      <nav>
+        <ul>
+          <li><a href="#" onclick="showPage('main-page'); return false;">Home</a></li>
+          <li><a href="#" onclick="showPage('privacy-policy'); return false;">Privacy Policy</a></li>
+          <li><a href="#" onclick="showPage('terms-conditions'); return false;">Terms & Conditions</a></li>
+          <li><a href="#" onclick="showPage('refund-policy'); return false;">Refund Policy</a></li>
+          <li><a href="#" onclick="showPage('shipping-policy'); return false;">Shipping Policy</a></li>
+        </ul>
+      </nav>
+      
+      <section class="policy-page">
+        <h2>Shipping Policy</h2>
+        <div class="policy-content">
+          <p>We offer digital access only. No physical shipping involved. Once payment is done, bot access is shared via Telegram.</p>
+        </div>
+        <a href="#" onclick="showPage('main-page'); return false;" class="back-btn">Back to Home</a>
+      </section>
+    </div>
+    
+    <footer>
+      <div class="container">
+        <h3>Contact Us</h3>
+        <div class="contact-info">
+          <p>Email: <a href="mailto:rent1sub@gmail.com">rent1sub@gmail.com</a></p>
+          <p>Telegram: <a href="https://t.me/YourBotUsername">t.me/YourBotUsername</a></p>
+        </div>
+        <div class="policy-links">
+          <a href="#" onclick="showPage('privacy-policy'); return false;">Privacy Policy</a>
+          <a href="#" onclick="showPage('terms-conditions'); return false;">Terms & Conditions</a>
+          <a href="#" onclick="showPage('refund-policy'); return false;">Refund Policy</a>
+          <a href="#" onclick="showPage('shipping-policy'); return false;">Shipping Policy</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+  
+  <script>
+    function showPage(pageId) {
+      // Hide all pages
+      const pages = document.querySelectorAll('.page');
+      pages.forEach(page => {
+        page.classList.remove('active');
+      });
+      
+      // Show the selected page
+      document.getElementById(pageId).classList.add('active');
+      
+      // Scroll to top
+      window.scrollTo(0, 0);
+    }
+  </script>
+</body>
+</html>
